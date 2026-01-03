@@ -4,7 +4,6 @@ export class RPMLibrary {
 
     this.rpmLibrary = page.locator('(//span[text()="RPM Library"])[1]');
     this.assessmentSection = page.locator('//button[text() ="Assessment"]');
-    
   }
 
   async openRPMLibrary() {

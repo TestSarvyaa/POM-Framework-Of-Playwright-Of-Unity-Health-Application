@@ -25,6 +25,11 @@ constructor(page)
         this.secondQuestionTypeOption = page.locator('//li[@data-value="FREE_TEXT"]');
         this.finishBtn = page.locator('//button[text()="Finish"]');
         this.editAssessmentBtn = page.locator("//button[text()='Edit']");
+        this.assignAssessmentBtn = page.locator('//button[text()="Assign"]');
+        this.patientListDropdown = page.locator('//input[@placeholder="Search & Select Patient"]');
+        this.selectPatient = page.locator('//input[@type="checkbox"]');
+        this.assignAssessmentToPatientBtn = page.locator('//h6[text()="Assign"]');
+        this.successMessage = page.locator('//div[text()="Assessment assigned successfully!"]');
     }
 
         addedAssessmentName(name)
@@ -71,7 +76,7 @@ constructor(page)
         await this.actionButton(puranaName).click();
 
         await this.editAssessmentBtn.click();
-
+        await this.page.waitForTimeout(2000);
         await this.assessmentTitle.fill('');
         await this.assessmentTitle.fill(nayaName);
         await this.nextBtn.click();
@@ -79,5 +84,17 @@ constructor(page)
         await this.nextBtn.click();
         await this.page.waitForTimeout(3000);
         await this.finishBtn.click();
+    }
+
+    async assignAssessment()
+    {
+        const newName = 'Edited Playwright Assessment By Sarvya'
+        await this.page.waitForTimeout(2000);
+        await this.actionButton(newName).click();
+        await this.assignAssessmentBtn.click();
+        await this.patientListDropdown.click();
+        await this.selectPatient.click();
+        await this.assignAssessmentToPatientBtn.click();
+        await this.page.waitForTimeout(2000);
     }
 } 

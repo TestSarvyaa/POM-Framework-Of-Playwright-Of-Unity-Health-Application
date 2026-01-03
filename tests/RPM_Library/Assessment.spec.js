@@ -6,8 +6,8 @@ import { AssessmentPage } from '../../Pages/AssessmentPage';
 test('Add Assessment', async ({ page }) =>
 {
 
-    const puranaName = 'Playwright Assessment By Sarvya';
-    const nayaName = 'Edited Playwright Assessment By Sarvya';
+    const previousName = 'Playwright Assessment By Sarvya';
+    const newName = 'Edited Playwright Assessment By Sarvya';
 
     const login = new LoginPage(page);
     const dashboard = new RPMLibrary(page);
@@ -22,7 +22,7 @@ test('Add Assessment', async ({ page }) =>
     const questionTwoName = 'How do you used the automation in your project?';
 
     await login.gotoLoginPage();
-    await login.login('sarvyaaa', 'Pass@123');
+    await login.login('stuart123', 'Pass@123');
 
     await dashboard.openRPMLibrary();
     await dashboard.openAssessmentSection();
@@ -41,9 +41,15 @@ test('Add Assessment', async ({ page }) =>
     await expect(assessment.addedAssessmentName(assessmentName)).toBeVisible();
 
     await assessment.editAssessment(
-        puranaName,
-        nayaName
+        previousName,
+        newName
     );
 
-    console.log(nayaName, ':--> ', 'Assessment has been Updated Successfully.');
+    console.log(newName, ':--> ', 'Assessment has been Updated Successfully.');
+
+    await assessment.assignAssessment();
+
+    await expect(assessment.successMessage).toBeVisible();
+
+    console.log("Assessment has been Assigned to the Patient Successfully.");
 })
