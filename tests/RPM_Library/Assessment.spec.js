@@ -6,14 +6,14 @@ import { AssessmentPage } from '../../Pages/AssessmentPage';
 test('Add Assessment', async ({ page }) =>
 {
 
-    const previousName = 'Playwright Assessment By Sarvya';
-    const newName = 'Edited Playwright Assessment By Sarvya';
+    const previousName = 'Advanced Assessment';
+    const newName = 'Edited Advanced Assessment';
 
     const login = new LoginPage(page);
     const dashboard = new RPMLibrary(page);
     const assessment = new AssessmentPage(page);
 
-    const assessmentName = "Playwright Assessment By Sarvya";
+    const assessmentName = "Advanced Assessment";
     const questionOneName = 'Which tool do you use to automate the UI?';
     const optionOne = 'Selenium';
     const optionTwo = 'Playwright';
@@ -22,7 +22,22 @@ test('Add Assessment', async ({ page }) =>
     const questionTwoName = 'How do you used the automation in your project?';
 
     await login.gotoLoginPage();
-    await login.login('stuart123', 'Pass@123');
+
+    await login.login(
+        process.env.APP_USERNAME,
+        process.env.APP_PASSWORD
+    );
+
+    // const username = process.env.USERNAME;
+    // const password = process.env.PASSWORD;
+
+    // if (!username || !password) 
+    // {
+    //     throw new Error('❌ USERNAME or PASSWORD is not defined in env');
+    // }
+
+    // await login.login(username, password);
+
 
     await dashboard.openRPMLibrary();
     await dashboard.openAssessmentSection();

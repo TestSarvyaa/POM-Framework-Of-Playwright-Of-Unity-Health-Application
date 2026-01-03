@@ -11,7 +11,11 @@ test('Add Enrollment', async({page}) =>
     const enrolment = new EnrollmentPage(page)
 
     await login.gotoLoginPage();
-    await login.login('stuart123', 'Pass@123');
+
+    await login.login(
+        process.env.APP_USERNAME,
+        process.env.APP_PASSWORD
+    );
 
     await enrolment.gotoEnrollmentSection();
 

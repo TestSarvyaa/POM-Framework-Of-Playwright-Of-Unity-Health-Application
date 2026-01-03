@@ -14,9 +14,25 @@ test('Template CRUD Flow', async ({ page }) => {
    const editedName = 'Edited POM Playwright Template';
 
    await login.gotoLoginPage();
-   await login.login('stuart123', 'Pass@123');
 
-   await dashboard.openRPMLibrary();
+    await login.login(
+        process.env.APP_USERNAME,
+        process.env.APP_PASSWORD
+    );
+
+    // const username = process.env.USERNAME;
+    // const password = process.env.PASSWORD;
+
+    // if (!username || !password) 
+    // {
+    //     throw new Error('❌ USERNAME or PASSWORD is not defined in env');
+    // }
+
+    // await login.login(username, password);
+
+
+
+  await dashboard.openRPMLibrary();
 
 
   await template.addTemplate(

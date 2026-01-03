@@ -88,7 +88,7 @@ constructor(page)
 
     async assignAssessment()
     {
-        const newName = 'Edited Playwright Assessment By Sarvya'
+        const newName = 'Edited Advanced Assessment'
         await this.page.waitForTimeout(2000);
         await this.actionButton(newName).click();
         await this.assignAssessmentBtn.click();
