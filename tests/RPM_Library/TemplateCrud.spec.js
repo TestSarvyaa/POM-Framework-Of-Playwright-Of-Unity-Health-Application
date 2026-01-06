@@ -10,8 +10,8 @@ test('Template CRUD Flow', async ({ page }) => {
    const template = new TemplatePage(page);
 
    //Template Names 
-   const originalName = 'POM Playwright Template';
-   const editedName = 'Edited POM Playwright Template';
+   const originalName = 'Testing Sarvesh Template';
+   const editedName = 'Edited Testing Sarvesh Template';
 
    await login.gotoLoginPage();
 

@@ -30,6 +30,7 @@ export class TemplatePage {
     await this.addTemplateBtn.click();
     await this.templateName.fill(name);
     await this.templateContent.fill(content);
+    await this.page.waitForTimeout(2000)
     await this.saveBtn.click();
   }
 
