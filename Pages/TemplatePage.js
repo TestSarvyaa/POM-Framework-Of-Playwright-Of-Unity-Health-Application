@@ -53,5 +53,7 @@ export class TemplatePage {
     await this.deleteBtn.click();
     await this.page.waitForTimeout(3000);
     await this.deletePopupBtn.click();
+    await this.page.waitForTimeout(2000);
+    //await this.templateName().toBeVisible(false);
   }
 }
