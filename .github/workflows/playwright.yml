@@ -62,8 +62,8 @@ jobs:
       # 5️⃣ Run Playwright tests (with env variables)
       - name: Run Playwright tests
         env:
-          USERNAME: ${{ secrets.APP_USERNAME }}
-          PASSWORD: ${{ secrets.APP_PASSWORD }}
+          APP_USERNAME: ${{ secrets.APP_USERNAME }}
+          APP_PASSWORD: ${{ secrets.APP_PASSWORD }}
           BASE_URL: https://spice.stage.unityhealth360.com
           CI: true
         run: npx playwright test --project=chromium
