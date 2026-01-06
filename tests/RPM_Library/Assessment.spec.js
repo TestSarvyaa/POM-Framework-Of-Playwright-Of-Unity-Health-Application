@@ -6,26 +6,27 @@ import { AssessmentPage } from '../../Pages/AssessmentPage';
 test('Add Assessment', async ({ page }) =>
 {
 
-    const previousName = 'Advanced Assessment';
-    const newName = 'Edited Advanced Assessment';
+    const previousName = 'Advanced Assessment First';
+    const newName = 'Edited Advanced Assessment First';
 
     const login = new LoginPage(page);
     const dashboard = new RPMLibrary(page);
     const assessment = new AssessmentPage(page);
 
-    const assessmentName = "Advanced Assessment";
+    const assessmentName = "Advanced Assessment First";
     const questionOneName = 'Which tool do you use to automate the UI?';
     const optionOne = 'Selenium';
     const optionTwo = 'Playwright';
     const optionThree = 'Cypress';
     const optionFour = 'I do the Manual Testing';
     const questionTwoName = 'How do you used the automation in your project?';
+    const username= process.env.APP_USERNAME;
+    const password= process.env.APP_PASSWORD;
 
     await login.gotoLoginPage();
 
     await login.login(
-        process.env.APP_USERNAME,
-        process.env.APP_PASSWORD
+        username,password
     );
 
     // const username = process.env.USERNAME;

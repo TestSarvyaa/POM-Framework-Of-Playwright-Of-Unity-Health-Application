@@ -9,12 +9,13 @@ test('Add Enrollment', async({page}) =>
 
     const login = new LoginPage(page);
     const enrolment = new EnrollmentPage(page)
+    const username= process.env.APP_USERNAME;
+    const password= process.env.APP_PASSWORD;
 
     await login.gotoLoginPage();
 
     await login.login(
-        process.env.APP_USERNAME,
-        process.env.APP_PASSWORD
+        username,password
     );
 
     await enrolment.gotoEnrollmentSection();
@@ -26,7 +27,6 @@ test('Add Enrollment', async({page}) =>
     await expect(enrolment.enrollmentAddedSuccessMessage).toBeVisible();
 
     console.log("Success Message :--> Patient has been Enrolled in the Program Successfully..");
-
 
 
     //Note :- Change the PatientLName before running the test and make sure to change the locator (patientSelection) as it is hardcoded

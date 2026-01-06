@@ -8,6 +8,8 @@ test('Template CRUD Flow', async ({ page }) => {
    const login = new LoginPage(page);
    const dashboard = new RPMLibrary(page);
    const template = new TemplatePage(page);
+   const username= process.env.APP_USERNAME;
+   const password= process.env.APP_PASSWORD;
 
    //Template Names 
    const originalName = 'Testing Sarvesh Template';
@@ -16,8 +18,8 @@ test('Template CRUD Flow', async ({ page }) => {
    await login.gotoLoginPage();
 
     await login.login(
-        process.env.APP_USERNAME,
-        process.env.APP_PASSWORD
+        username,
+        password
     );
 
     // const username = process.env.USERNAME;
