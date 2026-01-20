@@ -95,6 +95,6 @@ constructor(page)
         await this.patientListDropdown.click();
         await this.selectPatient.click();
         await this.assignAssessmentToPatientBtn.click();
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(5000);
     }
 } 

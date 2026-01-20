@@ -20,11 +20,11 @@ export class WorkListPage
 
         //Enrollment Section Locators
         this.serviceDropdown = page.getByText('Select Service', { exact: true })
-        this.serviceSelection = page.getByText('Remote Patient Monitoring (RPM)', { exact: true });
+        this.serviceSelection = page.getByText('Remote Therapeutic Monitoring (RTM)', { exact: true });
         this.providerDropdown = page.getByRole('combobox', { name: 'Search & Select Provider' });
-        this.providerSelection = page.locator('li:has-text("James Anderson")');
+        this.providerSelection = page.locator('li:has-text("James Anderson ")');
         this.careMangerDropdown = page.getByRole('combobox', { name: 'Search & Select Primary Care Manager' });
-        this.careManagerSelection = page.locator('li:has-text("Stuart Broad")');
+        this.careManagerSelection = page.locator('li:has-text("Stuart Broad ")');
         this.conditionsDropdown = page.getByRole('combobox', { name: 'Search & Select Diagnoses' });
         this.firstConditionSelection = page.locator("//li[@id='tags-standard-option-2']//input[@type='checkbox']");
         this.secondConditionSelection = page.locator("//li[@id='tags-standard-option-6']//input[@type='checkbox']");
@@ -34,37 +34,41 @@ export class WorkListPage
     }
 
 
-    async patientCreation(firstName, lastName, phoneNumber)
+    async patientCreation(firstName, lastName, dob, phoneNumber)
     {
         await this.newPatientBtn.click();
         await this.enterPatientDetailsBtn.click();
+
         await this.fNameField.fill(firstName);
         await this.lNameField.fill(lastName);
+
         await this.genderDropdown.click();
         await this.genderSelection.click();
 
-        //Date Picker Logic Starts....
         await this.datePicker.click();
-        const monthyear = 'June 2025';
-        const dateselect = '9';
+        await this.selectDOB(dob.monthYear, dob.day);
+        //Date Picker Logic Starts....
+    //     await this.datePicker.click();
+    //     const monthyear = 'June 2025';
+    //     const dateselect = '9';
 
-        while(true)
-    {
-       const currentMonthyear = await this.page.locator('//div[@class="MuiPickersCalendarHeader-label css-8633fn"]').textContent();
-     //console.log(currentMonthyear);
+    //     while(true)
+    // {
+    //    const currentMonthyear = await this.page.locator('//div[@class="MuiPickersCalendarHeader-label css-8633fn"]').textContent();
+    //  //console.log(currentMonthyear);
 
-       if(currentMonthyear== monthyear)
-       {
-        break;
-       }
+    //    if(currentMonthyear== monthyear)
+    //    {
+    //     break;
+    //    }
 
-    // await page.locator('//a[@title="Next"]').click(); //Clicking on the next button until condition matched
-       await this.page.getByTestId('ArrowLeftIcon').click(); 
+    // // await page.locator('//a[@title="Next"]').click(); //Clicking on the next button until condition matched
+    //    await this.page.getByTestId('ArrowLeftIcon').click(); 
 
-    }
+    // }
 
-    const dates = await this.page.$$('//button[@role="gridcell"]')
-    await this.page.click(`//button[@role="gridcell"][text()='${dateselect}']`) //Selecting the date without looping staement
+    // const dates = await this.page.$$('//button[@role="gridcell"]')
+    // await this.page.click(`//button[@role="gridcell"][text()='${dateselect}']`) //Selecting the date without looping staement
     //Date Picker Logic Ends...
 
         await this.phnNumber.fill(phoneNumber);
@@ -87,6 +91,29 @@ export class WorkListPage
         await this.firstConditionSelection.click();
         await this.secondConditionSelection.click();
         await this.addPlanBtn.click();
-        await this.page.waitForTimeout(3000);
+        await this.page.waitForTimeout(2000);
     }
+
+
+    async selectDOB(monthYear, day) 
+    {
+
+    const monthYearLabel = this.page.locator('//div[@class="MuiPickersCalendarHeader-label css-8633fn"]');
+    const prevBtn = this.page.locator('//button[@title="Previous month"]');
+
+  for (let i = 0; i < 120; i++) { // max 10 years backward safety
+    const currentMonthYear = (await monthYearLabel.textContent())?.trim();
+
+        if (currentMonthYear === monthYear) break;
+            await prevBtn.click();
+            await this.page.waitForTimeout(150);
+        } 
+        // const dates = await this.page.$$('//button[@role="gridcell"]')
+        // await this.page.locator(`//button[@role="gridcell"][text()='${day}']`).click();
+
+     // Select ONLY enabled day
+        const dayButton = this.page.locator(`//button[@role="gridcell" and not(@aria-disabled="true") and text()='${day}']`);
+        await dayButton.first().click();
+    }   
+    
 }
