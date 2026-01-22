@@ -13,7 +13,7 @@ export class AdminPortalLoginPage{
 
   async gotoAdminLoginPage()
   {
-    await this.page.goto('https://stage.unityhealth360.com');
+    await this.page.goto('https://qa.unityhealth360.com');
     //await this.advancedBtn.click();
     //await this.linkBtn.click();
   }

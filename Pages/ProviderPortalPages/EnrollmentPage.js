@@ -6,7 +6,7 @@ export class EnrollmentPage
         this.enrolmentSection = page.locator('li').filter({ hasText: 'Enrollments' }).first();
         this.addEnrolmentBtn =  page.locator('(//button[@tabindex="0"])[5]');
         this.patientDrodown =  page.getByPlaceholder('Search', { exact: true })  //firstly click and then fill
-        const pName = "Patient, Stage "
+        const pName = "Little, Jermain "
         this.patientSelection = page.locator(`li:has-text("${pName}")`);
         this.serviceDropdown = page.getByText('Select Service', { exact: true })
         this.serviceSelection = page.getByText('Remote Patient Monitoring (RPM)', { exact: true });
