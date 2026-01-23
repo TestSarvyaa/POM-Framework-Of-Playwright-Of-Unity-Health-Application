@@ -1,4 +1,4 @@
-export class WorkListPage
+export class WorkListpage
 {
     constructor(page)
     {
