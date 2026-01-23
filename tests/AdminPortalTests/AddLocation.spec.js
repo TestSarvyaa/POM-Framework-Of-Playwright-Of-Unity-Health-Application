@@ -13,6 +13,7 @@ test("Adding Location", async ({ page }) => {
 
   await loggedIn.login(adminUn, adminPwd);
 
+  // Created a Function for Selecting the Random City with Suffix
   //let location = "Dev Facility";
   const cities = ["Silverside", "Brookhaven", "Lakeside", "Riverview"];
   const suffixes = ["Heights", "Plaza", "Center", "Park"];
@@ -25,6 +26,7 @@ test("Adding Location", async ({ page }) => {
  // const location = cities[testInfo.repeatEachIndex % cities.length];
   const location = getRandomCityStyleName();
 
+  
   await loc.addLocation(location);
   await expect(loc.locationSaveMsg).toBeVisible();
   console.log("Location Added Successfully...");
