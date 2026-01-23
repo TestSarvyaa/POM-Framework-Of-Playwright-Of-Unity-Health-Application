@@ -33,7 +33,7 @@ test(`Patient Onboarding and Enrollment ${i}`, async({page}) =>
         patient.dob,
         patient.phoneNumber
     )
-    console.log("Patient has been created Successfully..");
+    console.log(patient.firstName, "Patient has been created Successfully..");
     //await expect(workList.patientSelection).toBeVisible();
 
     await workList.enrollmentCreation(

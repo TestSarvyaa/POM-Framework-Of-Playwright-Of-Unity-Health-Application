@@ -22,9 +22,9 @@ export class WorkListPage
         this.serviceDropdown = page.getByText('Select Service', { exact: true })
         this.serviceSelection = page.getByText('Remote Therapeutic Monitoring (RTM)', { exact: true });
         this.providerDropdown = page.getByRole('combobox', { name: 'Search & Select Provider' });
-        this.providerSelection = page.locator('li:has-text("James Anderson ")');
+        this.providerSelection = page.locator('li:has-text("Test Automation ")');
         this.careMangerDropdown = page.getByRole('combobox', { name: 'Search & Select Primary Care Manager' });
-        this.careManagerSelection = page.locator('li:has-text("Stuart Broad ")');
+        this.careManagerSelection = page.locator('li:has-text("Sarvesh Automation ")');
         this.conditionsDropdown = page.getByRole('combobox', { name: 'Search & Select Diagnoses' });
         this.firstConditionSelection = page.locator("//li[@id='tags-standard-option-2']//input[@type='checkbox']");
         this.secondConditionSelection = page.locator("//li[@id='tags-standard-option-6']//input[@type='checkbox']");
