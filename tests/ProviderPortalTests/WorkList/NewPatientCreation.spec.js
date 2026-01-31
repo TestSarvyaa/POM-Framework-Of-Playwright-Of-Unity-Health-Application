@@ -36,11 +36,11 @@ test(`Patient Onboarding and Enrollment ${i}`, async({page}) =>
     console.log(patient.firstName, "Patient has been created Successfully..");
     //await expect(workList.patientSelection).toBeVisible();
 
-    await workList.enrollmentCreation(
-    )
-    console.log("Enrollment has been created successfully");
+    //await workList.enrollmentCreation()
+    const selectedEnrollment = await workList.enrollmentCreation();
+   // console.log(`Enrollment used in this test: ${selectedEnrollment}`);
+   // console.log(`Patient has been enrolled successfully on the ${selectedEnrollment} program`);
 
     console.log("Executed :- ", `${i}`)
     });
-
 }

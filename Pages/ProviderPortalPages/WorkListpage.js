@@ -4,7 +4,7 @@ export class WorkListpage
     {
         this.page = page
 
-        //Patient Creation Section Locators
+        //-----------------Patient Creation Section Locators------------------------
         this.enrolmentNewSection = page.locator('//div/div//p[text()="New"]');
         this.newPatientBtn = page.getByRole('button', { name: 'New Patient' });
         this.enterPatientDetailsBtn = page.getByRole('button', { name: 'Enter Patient Details' });
@@ -18,13 +18,22 @@ export class WorkListpage
         this.yesBtn = page.locator('//button[text()="Yes"]');
 
 
-        //Enrollment Section Locators
-        this.serviceDropdown = page.getByText('Select Service', { exact: true })
-        this.serviceSelection = page.getByText('Remote Therapeutic Monitoring (RTM)', { exact: true });
+        //-------------------Enrollment Section Locators-----------------------------------
+        this.serviceDropdown = page.locator('//span[text()="Select Service"]');
+        this.enrollmentTypes = [
+            'Remote Patient Monitoring (RPM)',
+            'Remote Therapeutic Monitoring (RTM)',
+            'Chronic Care Management (CCM)',
+            'Principal Care Management (PCM)'
+        ];
+        
+        this.selectedEnrollmentType = null;
+        
+        
         this.providerDropdown = page.getByRole('combobox', { name: 'Search & Select Provider' });
-        this.providerSelection = page.locator('li:has-text("Test Automation ")');
+        this.providerSelection = page.locator('//li[text()="Test Automation "]');
         this.careMangerDropdown = page.getByRole('combobox', { name: 'Search & Select Primary Care Manager' });
-        this.careManagerSelection = page.locator('li:has-text("Sarvesh Automation ")');
+        this.careManagerSelection = page.locator('//li[text()="Sarvesh Automation "]');
         this.conditionsDropdown = page.getByRole('combobox', { name: 'Search & Select Diagnoses' });
         this.firstConditionSelection = page.locator("//li[@id='tags-standard-option-2']//input[@type='checkbox']");
         this.secondConditionSelection = page.locator("//li[@id='tags-standard-option-6']//input[@type='checkbox']");
@@ -32,7 +41,10 @@ export class WorkListpage
         this.enrollmentAddedSuccessMessage = page.locator('//div[text()="Documents mapped successfully!"]');
         this.patientSelection = page.locator('li:has-text("Patient, Stage ")');
     }
-
+        getRandomEnrollmentType() {
+        return this.enrollmentTypes[Math.floor(Math.random() * this.enrollmentTypes.length)];
+        }
+        
 
     async patientCreation(firstName, lastName, dob, phoneNumber)
     {
@@ -80,9 +92,11 @@ export class WorkListpage
 
     async enrollmentCreation()
     {
-        await this.page.waitForTimeout(3000);
+        await this.page.waitForTimeout(1000);
+        this.selectedEnrollmentType = this.getRandomEnrollmentType();
+       // console.log(`Selected Enrollment: ${this.selectedEnrollmentType}`);
         await this.serviceDropdown.click();
-        await this.serviceSelection.click();
+        await this.page.locator(`//li[text()="${this.selectedEnrollmentType}"]`).click();
         await this.providerDropdown.click();
         await this.providerSelection.click();
         await this.careMangerDropdown.click();
@@ -91,6 +105,7 @@ export class WorkListpage
         await this.firstConditionSelection.click();
         await this.secondConditionSelection.click();
         await this.addPlanBtn.click();
+        console.log(`Patient has been successfully enrolled in ${this.selectedEnrollmentType}`);
         await this.page.waitForTimeout(2000);
     }
 

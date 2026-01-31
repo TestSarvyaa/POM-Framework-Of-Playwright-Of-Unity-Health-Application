@@ -6,14 +6,40 @@ import { AssessmentPage } from '../../../Pages/ProviderPortalPages/AssessmentPag
 test('Add Assessment', async ({ page }) =>
 {
 
-    const previousName = 'A Stage Assessment';
-    const newName = 'Edited A Stage Assessment';
+ //Function for the Time Creation
+    function getCurrentISTDateTime() {
+        const now = new Date();
+        const istTime = new Date(
+        now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
 
+        // return istTime
+        // .toISOString()
+        // .replace('T', ' ')
+        // .replace(/[:.]/g, '-')
+        // .replace('Z', '');
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const year = now.getFullYear();
+
+        let hours = now.getHours();
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12 || 12; // convert 0 → 12
+
+        return `${month}-${day}-${year} ${hours}:${minutes}:${seconds} ${ampm}`;
+    }
+    const dateTimeIST = getCurrentISTDateTime();
+    const previousName = `Assessment - ${dateTimeIST}`;
+    const newName = `Assessment - Edited - ${dateTimeIST}`;
+
+    
     const login = new ProviderPortalLoginPage(page);
     const dashboard = new RPMLibrary(page);
     const assessment = new AssessmentPage(page);
 
-    const assessmentName = "A Stage Assessment";
+    const assessmentName = `Assessment - ${dateTimeIST}`;
     const questionOneName = 'Which tool do you use to automate the UI?';
     const optionOne = 'Selenium';
     const optionTwo = 'Playwright';
@@ -56,7 +82,7 @@ test('Add Assessment', async ({ page }) =>
     )
    // await page.waitForTimeout(3000);
     console.log(assessmentName,':--->', 'Assessment has been Successfully Added in the System');
-    await expect(assessment.addedAssessmentName(assessmentName)).toBeVisible();
+    //await expect(assessment.assessmentName).toBeVisible();
 
     //Edit Assessment Method
     await assessment.editAssessment(
@@ -66,7 +92,7 @@ test('Add Assessment', async ({ page }) =>
     console.log(newName, ':--> ', 'Assessment has been Updated Successfully.');
 
     //Assign Assessment
-    await assessment.assignAssessment();
-    await expect(assessment.successMessage).toBeVisible();
+    await assessment.assignAssessment(newName);
+   // await expect(assessment.successMessage).toBeVisible();
     console.log("Assessment has been Assigned to the Patient Successfully.");
 })

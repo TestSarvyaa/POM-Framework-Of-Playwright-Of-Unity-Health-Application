@@ -68,6 +68,7 @@ constructor(page)
         await this.secondQuestionTypeOption.click()  
         await this.nextBtn.click();
         await this.finishBtn.click();
+        await this.page.waitForTimeout(1000);
     }
 
     async editAssessment(puranaName, nayaName)
@@ -84,17 +85,17 @@ constructor(page)
         await this.nextBtn.click();
         await this.page.waitForTimeout(3000);
         await this.finishBtn.click();
+        await this.page.waitForTimeout(1000);
     }
 
-    async assignAssessment()
+    async assignAssessment(assessmentName)
     {
-        const newName = 'Edited Advanced Assessment First'
         await this.page.waitForTimeout(2000);
-        await this.actionButton(newName).click();
+        await this.actionButton(assessmentName).click();
         await this.assignAssessmentBtn.click();
         await this.patientListDropdown.click();
         await this.selectPatient.click();
         await this.assignAssessmentToPatientBtn.click();
-        await this.page.waitForTimeout(5000);
+        await this.page.waitForTimeout(3000);
     }
 } 

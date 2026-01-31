@@ -28,7 +28,7 @@ test('Add Enrollment', async({page}) =>
 
    // await expect(enrolment.enrollmentAddedSuccessMessage).toBeVisible();
 
-    console.log("Success Message :--> Patient has been Enrolled in the Program Successfully..");
+    console.log("Patient has been Enrolled in the Program Successfully..");
 
 
     //Note :- Change the PatientLName before running the test and make sure to change the locator (patientSelection) as it is hardcoded

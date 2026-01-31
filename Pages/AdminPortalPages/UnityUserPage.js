@@ -3,7 +3,7 @@ export class UnityUserPage{
     this.page = page;
 
      // Locators
-    this.groupName =  page.locator('span:has-text("Spice Group of Health Care")');
+    this.groupName =  page.locator('span:has-text("Sarvesh Automation Provider Group for Testing")');
     this.unityUserTab = page.locator('//button[text()="Unity Users"]');
     this.addUser = page.locator('//span[text()="Add User"]');
     this.roleDropdown = page.locator('(//div[@tabindex="0"])[4]');
