@@ -1,3 +1,5 @@
+import { expect } from "@playwright/test";
+
 export class WorkListpage
 {
     constructor(page)
@@ -48,6 +50,8 @@ export class WorkListpage
 
     async patientCreation(firstName, lastName, dob, phoneNumber)
     {
+        await expect(this.newPatientBtn).toBeVisible({timeout : 6000})
+        await expect(this.newPatientBtn).toBeEnabled();
         await this.newPatientBtn.click();
         await this.enterPatientDetailsBtn.click();
 

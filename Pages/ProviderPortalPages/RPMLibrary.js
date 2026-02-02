@@ -1,3 +1,5 @@
+import { expect } from "@playwright/test";
+
 export class RPMLibrary {
   constructor(page) {
     this.page = page;
@@ -8,12 +10,16 @@ export class RPMLibrary {
   }
 
   async openRPMLibrary() {
+    await expect(this.rpmLibrary).toBeVisible({timeout : 6000});
+    await expect(this.rpmLibrary).toBeEnabled();
     await this.rpmLibrary.first().click();
   }
 
   
   async openRTMLibrary()
   {
+    await expect(this.rtmLibrary).toBeVisible({timeout : 6000});
+    await expect(this.rtmLibrary).toBeEnabled();
     await this.rtmLibrary.first().click();
   }
 
