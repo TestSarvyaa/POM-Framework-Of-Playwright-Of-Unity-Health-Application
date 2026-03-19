@@ -11,8 +11,8 @@ test('Adding Unity User Test', async ({ page }) =>{
     const loggedIn = new AdminPortalLoginPage(page, process.env.ADMIN_BASE_URL)
     const unityUser = new UnityUserPage(page);
 
-    loggedIn.gotoAdminLoginPage();
-    
+    await loggedIn.gotoAdminLoginPage();
+
         await loggedIn.login(
             adminUn,
             adminPwd
@@ -29,7 +29,7 @@ test('Adding Unity User Test', async ({ page }) =>{
             provider.username
     )
 
-    console.log("Unity User has been Loaded to the System Successfully...");
+   // console.log("Unity User has been Loaded to the System Successfully...");
    // await expect(unityUser.addedUserName).toBeVisible();
     // let name = await providerGroup.addedUser.textContent();
     // console.log(name, "has been created successfully")
@@ -38,10 +38,10 @@ test('Adding Unity User Test', async ({ page }) =>{
     console.log(`${provider.firstName} ${provider.lastName} user has been created Successfully`);
 
     //Delete User
-    await unityUser.deleteUser(provider.email)
-    console.log('User has been deleted Successfully...');
-    //await expect(unityUser.addedUserName).not.toBeVisible();
-    console.log(`${provider.firstName} ${provider.lastName} user has been deleted Successfully`);
+   await unityUser.deleteUser(provider.email)
+   console.log('User has been deleted Successfully...');
+    await expect(unityUser.addedUserName).not.toBeVisible();
+   console.log(`${provider.firstName} ${provider.lastName} user has been deleted Successfully`);
 
 })
 

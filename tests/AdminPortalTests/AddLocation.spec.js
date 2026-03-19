@@ -9,7 +9,7 @@ test("Adding Location", async ({ page }) => {
   const loggedIn = new AdminPortalLoginPage(page, process.env.ADMIN_BASE_URL);
   const loc = new LocationPage(page);
 
-  loggedIn.gotoAdminLoginPage();
+  await loggedIn.gotoAdminLoginPage();
 
   await loggedIn.login(adminUn, adminPwd);
 

@@ -3,7 +3,7 @@ export class InsurancePage {
     this.page = page;
     this.baseurl = baseurl;
 
-    this.providerGroupName = page.locator('span:has-text("Sarvesh Automation Provider Group for Testing")');
+    this.providerGroupName = page.locator('(//span[@class="MuiTypography-root MuiTypography-title2 css-rxrkbo"])[1]');
     this.insuranceSection = page.locator('//button[text()="Insurance"]');
     this.addInsuranceBtn = page.locator('//span[text()="Add Insurance"]');
     this.inputInsuranceBox = page.locator('//input[@name="insuranceName"]');
@@ -14,7 +14,7 @@ export class InsurancePage {
     this.stateSelection = page.locator('//li[text()="Delaware"]');
     this.cityBox = page.locator('//input[@name="addressEntity.city"]');
     this.saveBtn = page.locator('//h6[text()="Save"]');
-    this.successMsg = page.locator('//div[text()="Insurance saved successfully"]');
+    this.successMsg = page.locator('//div[text()="Insurance saved successfully"]'); 
 
 
     //Random Insurance selection setup

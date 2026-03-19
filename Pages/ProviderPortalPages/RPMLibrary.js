@@ -10,6 +10,7 @@ export class RPMLibrary {
   }
 
   async openRPMLibrary() {
+    await this.page.waitForTimeout(2000);
     await expect(this.rpmLibrary).toBeVisible({timeout : 6000});
     await expect(this.rpmLibrary).toBeEnabled();
     await this.rpmLibrary.first().click();
@@ -18,6 +19,7 @@ export class RPMLibrary {
   
   async openRTMLibrary()
   {
+    await this.page.waitForTimeout(2000);
     await expect(this.rtmLibrary).toBeVisible({timeout : 6000});
     await expect(this.rtmLibrary).toBeEnabled();
     await this.rtmLibrary.first().click();

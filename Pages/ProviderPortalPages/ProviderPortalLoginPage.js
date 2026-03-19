@@ -10,7 +10,7 @@ export class ProviderPortalLoginPage{
 
   async gotoLoginPage()
   {
-    await this.page.goto('https://sarvya.qa.unityhealth360.com/auth/login');
+    await this.page.goto(`${process.env.PROVIDER_BASE_URL}/auth/login`);
   }
 
   async login(username, password) {

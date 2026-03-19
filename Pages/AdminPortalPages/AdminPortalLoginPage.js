@@ -13,12 +13,13 @@ export class AdminPortalLoginPage{
 
   async gotoAdminLoginPage()
   {
-    await this.page.goto('https://qa.unityhealth360.com');
+    await this.page.goto(process.env.ADMIN_BASE_URL);
     //await this.advancedBtn.click();
     //await this.linkBtn.click();
   }
 
-  async login(username, password) {
+    async login(username, password) 
+  {
     await this.adminUsername.fill(username);
     await this.adminPassword.fill(password);
     await this.adminLoginBtn.click();

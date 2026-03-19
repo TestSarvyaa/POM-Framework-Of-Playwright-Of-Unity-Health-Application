@@ -9,7 +9,7 @@ export class LocationPage {
     //this.locationText = this.locator(`//span[text()="${locationName}"]`);
 
     //Add Locators
-    this.providerGroupName = page.locator('span:has-text("Sarvesh Automation Provider Group for Testing")');
+    this.providerGroupName = page.locator('(//span[@class="MuiTypography-root MuiTypography-title2 css-rxrkbo"])[1]');
     this.locationSection = page.locator('//button[text()="Location"]');
     this.addLocationBtn = page.locator('//span[text()="Add Location"]');
     this.locationNameBox = page.locator('//input[@name="addressName"]');
@@ -23,9 +23,9 @@ export class LocationPage {
     this.addLineOne = page.locator('//input[@name="line1"]');
     this.addLineTwo = page.locator('//input[@name="line2"]');
     this.countryDropdown = page.getByText("Select Country");
-    this.countrySelection = page.locator('//li[text()="United States"]');
+    this.countrySelection = page.locator('//li[@data-value="United States"]');
     this.stateDropdown = page.getByText("Select State");
-    this.stateSelection = page.locator('//li[text()="Delaware"]');
+    this.stateSelection = page.locator('//li[@data-value="Delaware"]');
     this.cityBox = page.locator('//input[@name="city"]');
     this.updateBtn = page.locator('//h6[text()="Update"]');
     this.updateSuccessMsg = page.locator('//div[text()="Address updated successfully"]');
@@ -58,8 +58,14 @@ export class LocationPage {
     await this.addLineOne.fill(line1);
     await this.addLineTwo.fill(line2);
     await this.countryDropdown.click();
+    await this.page.waitForTimeout(1000);
+    await this.countrySelection.waitFor({ state: 'visible', timeout: 10000 });
     await this.countrySelection.click();
+    await this.page.waitForTimeout(2000);
+    await this.stateDropdown.waitFor({ state: 'visible', timeout: 10000 });
     await this.stateDropdown.click();
+    await this.page.waitForTimeout(1000);
+    await this.stateSelection.waitFor({ state: 'visible', timeout: 10000 });
     await this.stateSelection.click();
     await this.cityBox.fill(city);
     await this.updateBtn.click();

@@ -10,7 +10,7 @@ test('Adding Insurance Test', async ({page}) =>
     const loggedIn = new AdminPortalLoginPage(page, process.env.ADMIN_BASE_URL);
     const insurer = new InsurancePage(page)
 
-    loggedIn.gotoAdminLoginPage();
+    await loggedIn.gotoAdminLoginPage();
 
     await loggedIn.login(adminUn, adminPwd);
 

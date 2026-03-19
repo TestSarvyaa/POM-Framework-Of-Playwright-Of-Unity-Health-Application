@@ -6,6 +6,13 @@ export class WorkListpage
     {
         this.page = page
 
+
+        //-----------------------------Global Locators Wich are on the Worklist Page-----------------------
+        this.searchBtn = page.locator('//input[@placeholder="Search Patient Name, DOB (MM-DD-YYYY), Phone"]');
+        this.patientNameSelecting = page.locator('(//span[@class="MuiTypography-root MuiTypography-title1 css-heqp20"])[1]')
+
+
+
         //-----------------Patient Creation Section Locators------------------------
         this.enrolmentNewSection = page.locator('//div/div//p[text()="New"]');
         this.newPatientBtn = page.getByRole('button', { name: 'New Patient' });
@@ -14,40 +21,65 @@ export class WorkListpage
         this.lNameField = page.getByRole('textbox', { name: 'Enter Last Name' });
         this.genderDropdown = page.locator('#mui-component-select-gender')
         this.genderSelection = page.getByText('Male', { exact: true });
-        this.datePicker =  page.locator('//button[@aria-label="Choose date"]');
+        this.dobInputs = page.locator('(//input[@placeholder="MM-DD-YYYY"])[2]');
         this.phnNumber = page.locator('#phone');
         this.saveBtn = page.getByRole('button', { name: 'Save & Next' });
         this.yesBtn = page.locator('//button[text()="Yes"]');
 
 
+        // 'Remote Patient Monitoring (RPM)','Remote Therapeutic Monitoring (RTM)','Principal Care Management (PCM)', 'Chronic Care Management (CCM)'
         //-------------------Enrollment Section Locators-----------------------------------
         this.serviceDropdown = page.locator('//span[text()="Select Service"]');
+
         this.enrollmentTypes = [
-            'Remote Patient Monitoring (RPM)',
-            'Remote Therapeutic Monitoring (RTM)',
-            'Chronic Care Management (CCM)',
-            'Principal Care Management (PCM)'
+            'Remote Patient Monitoring (RPM)','Remote Therapeutic Monitoring (RTM)',
+            'Principal Care Management (PCM)', 'Chronic Care Management (CCM)'
         ];
+
         
+        //'Remote Patient Monitoring (RPM)','Remote Therapeutic Monitoring (RTM)','Principal Care Management (PCM)','Chronic Care Management (CCM)',
         this.selectedEnrollmentType = null;
         
-        
         this.providerDropdown = page.getByRole('combobox', { name: 'Search & Select Provider' });
-        this.providerSelection = page.locator('//li[text()="Test Automation "]');
         this.careMangerDropdown = page.getByRole('combobox', { name: 'Search & Select Primary Care Manager' });
-        this.careManagerSelection = page.locator('//li[text()="Sarvesh Automation "]');
         this.conditionsDropdown = page.getByRole('combobox', { name: 'Search & Select Diagnoses' });
         this.firstConditionSelection = page.locator("//li[@id='tags-standard-option-2']//input[@type='checkbox']");
         this.secondConditionSelection = page.locator("//li[@id='tags-standard-option-6']//input[@type='checkbox']");
         this.addPlanBtn = page.locator('//h6[text()="Add Plan"]'); 
-        this.enrollmentAddedSuccessMessage = page.locator('//div[text()="Documents mapped successfully!"]');
-        this.patientSelection = page.locator('li:has-text("Patient, Stage ")');
+        this.enrollmentAddedSuccessMessage = page.locator('//div[text()="Enrollment Created Successfully"]');
+        //this.patientSelection = page.locator('li:has-text("Patient, Stage ")');
     }
-        getRandomEnrollmentType() {
-        return this.enrollmentTypes[Math.floor(Math.random() * this.enrollmentTypes.length)];
-        }
-        
 
+    async searchPatient(patienName)
+    {            
+        await this.searchBtn.fill(patienName);
+        await this.patientNameSelecting.click();
+    }
+
+    getRandomEnrollmentType() 
+    { 
+        return this.enrollmentTypes[Math.floor(Math.random() * this.enrollmentTypes.length)];     
+    }
+
+    async getVisibleDOBInput()
+    {
+        const count = await this.dobInputs.count();
+        for (let i = 0; i < count; i++) {
+            const input = this.dobInputs.nth(i);
+            if (await input.isVisible().catch(() => false)) {
+                return input;
+            }
+        }
+        throw new Error('DOB input is not visible');
+    }
+
+    async selectFirstListboxOption()
+    {
+        const listOptions = this.page.locator('//ul[@role="listbox"]//li');
+        await listOptions.first().waitFor({ state: 'visible', timeout: 10000 });
+        await listOptions.first().click();
+    }
+        
     async patientCreation(firstName, lastName, dob, phoneNumber)
     {
         await expect(this.newPatientBtn).toBeVisible({timeout : 6000})
@@ -61,78 +93,68 @@ export class WorkListpage
         await this.genderDropdown.click();
         await this.genderSelection.click();
 
-        await this.datePicker.click();
-        await this.selectDOB(dob.monthYear, dob.day);
-        //Date Picker Logic Starts....
-    //     await this.datePicker.click();
-    //     const monthyear = 'June 2025';
-    //     const dateselect = '9';
-
-    //     while(true)
-    // {
-    //    const currentMonthyear = await this.page.locator('//div[@class="MuiPickersCalendarHeader-label css-8633fn"]').textContent();
-    //  //console.log(currentMonthyear);
-
-    //    if(currentMonthyear== monthyear)
-    //    {
-    //     break;
-    //    }
-
-    // // await page.locator('//a[@title="Next"]').click(); //Clicking on the next button until condition matched
-    //    await this.page.getByTestId('ArrowLeftIcon').click(); 
-
-    // }
-
-    // const dates = await this.page.$$('//button[@role="gridcell"]')
-    // await this.page.click(`//button[@role="gridcell"][text()='${dateselect}']`) //Selecting the date without looping staement
-    //Date Picker Logic Ends...
+        const dobInput = await this.getVisibleDOBInput();
+        await dobInput.click();
+        await dobInput.press('Control+A');
+        await dobInput.fill(dob.formatted);
+        await dobInput.press('Tab');
 
         await this.phnNumber.fill(phoneNumber);
         await this.saveBtn.click();
-        await this.page.waitForTimeout(2000);
         await this.yesBtn.click();
+        // Click Yes button if it appears (optional)
+        // const isYesBtnVisible = await this.yesBtn.isVisible({ timeout: 3000 }).catch(() => false);
+        // if (isYesBtnVisible) {
+        //     await this.yesBtn.click();
+        // }
 
+        // await this.serviceDropdown.waitFor({ state: 'visible', timeout: 15000 });
     }
 
     async enrollmentCreation()
     {
-        await this.page.waitForTimeout(1000);
         this.selectedEnrollmentType = this.getRandomEnrollmentType();
-       // console.log(`Selected Enrollment: ${this.selectedEnrollmentType}`);
+        await this.serviceDropdown.waitFor({ state: 'visible', timeout: 15000 });
         await this.serviceDropdown.click();
-        await this.page.locator(`//li[text()="${this.selectedEnrollmentType}"]`).click();
+        await this.page.locator(`//li[text()="${this.selectedEnrollmentType}"]`).first().waitFor({ state: 'visible', timeout: 10000 });
+        await this.page.locator(`//li[text()="${this.selectedEnrollmentType}"]`).first().click();
+        
         await this.providerDropdown.click();
-        await this.providerSelection.click();
+        const providerOptions = this.page.locator('//ul[@role="listbox"]//li');
+        await providerOptions.first().waitFor({ state: 'visible', timeout: 10000 });
+        const selectedProvider = (await providerOptions.first().textContent()) || '';
+        await providerOptions.first().click();
+        
         await this.careMangerDropdown.click();
-        await this.careManagerSelection.click();
+        const careManagerOptions = this.page.locator('//ul[@role="listbox"]//li');
+        await careManagerOptions.first().waitFor({ state: 'visible', timeout: 10000 });
+        const selectedCareManager = (await careManagerOptions.first().textContent()) || '';
+        await careManagerOptions.first().click();
+        
         await this.conditionsDropdown.click();
-        await this.firstConditionSelection.click();
-        await this.secondConditionSelection.click();
+        const hasFirstCondition = await this.firstConditionSelection.isVisible().catch(() => false);
+        const hasSecondCondition = await this.secondConditionSelection.isVisible().catch(() => false);
+        if (hasFirstCondition && hasSecondCondition) {
+            await this.firstConditionSelection.click();
+            await this.secondConditionSelection.click();
+        } else {
+            // Click checkboxes inside the list items to keep the multi-select dropdown open
+            const listOptions = this.page.locator('//ul[@role="listbox"]//li');
+            await listOptions.first().waitFor({ state: 'visible', timeout: 10000 });
+            await listOptions.nth(0).locator('input').click();
+            await this.page.waitForTimeout(500);
+            if (await listOptions.nth(1).isVisible().catch(() => false)) {
+                await listOptions.nth(1).locator('input').click();
+            }
+        }
+        await this.page.keyboard.press('Escape');
         await this.addPlanBtn.click();
         console.log(`Patient has been successfully enrolled in ${this.selectedEnrollmentType}`);
-        await this.page.waitForTimeout(2000);
+        console.log(`Provider: ${selectedProvider.trim()}`);
+        console.log(`Care Manager: ${selectedCareManager.trim()}`);
+        await this.enrollmentAddedSuccessMessage.waitFor({ state: 'visible', timeout: 15000 });
+        return this.selectedEnrollmentType;
     }
 
 
-    async selectDOB(monthYear, day) 
-    {
-
-    const monthYearLabel = this.page.locator('//div[@class="MuiPickersCalendarHeader-label css-8633fn"]');
-    const prevBtn = this.page.locator('//button[@title="Previous month"]');
-
-  for (let i = 0; i < 120; i++) { // max 10 years backward safety
-    const currentMonthYear = (await monthYearLabel.textContent())?.trim();
-
-        if (currentMonthYear === monthYear) break;
-            await prevBtn.click();
-            await this.page.waitForTimeout(150);
-        } 
-        // const dates = await this.page.$$('//button[@role="gridcell"]')
-        // await this.page.locator(`//button[@role="gridcell"][text()='${day}']`).click();
-
-     // Select ONLY enabled day
-        const dayButton = this.page.locator(`//button[@role="gridcell" and not(@aria-disabled="true") and text()='${day}']`);
-        await dayButton.first().click();
-    }   
-    
 }
